@@ -1,43 +1,117 @@
-
 // vocal, drum, bass, and other are volumes ranging from 0 to 100
+let red = [235, 61, 68]
+let yellow = [246, 245, 181]
+let white = [255]  
+let black = [0]
+let recordSpin = 2;
+let yellowSpin = 2;
+let dotSpacing = 60;
+let currentDotSize = 0;
+let currentRecordSize = 300;
+let currentRedSpikeSize = 270;
+
 function draw_one_frame(words, vocal, drum, bass, other, counter) {
-  background(20)
+  background(0)
   textFont('Verdana'); // please use CSS safe fonts
   rectMode(CENTER)
-  textSize(24);
-  
-   let bar_spacing = height / 10;
-   let bar_height = width / 12;
-   let bar_pos_x = width / 2;
- 
-// changes 
-   // vocal bar is red
-   fill(200, 0, 0);
-   rect(bar_pos_x, height / 2 + 1 * bar_spacing, 4 * vocal, bar_height);
-   fill(0);
-   text("vocals", bar_pos_x, height / 2 + 1 * bar_spacing + 8);
- 
-   // drum bar is green
-   fill(0, 200, 0);
-   rect(bar_pos_x, height / 2 + 2 * bar_spacing, 4 * drum, bar_height);
-   fill(0);
-   text("drums", bar_pos_x, height / 2 + 2 * bar_spacing + 8);
- 
-   // bass bar is blue
-   fill(50, 50, 240);
-   rect(bar_pos_x, height / 2 + 3 * bar_spacing, 4 * bass, bar_height);
-   fill(0);
-   text("bass", bar_pos_x, height / 2 + 3 * bar_spacing + 8);
- 
-   // other bar is white
-   fill(200, 200, 200);
-   rect(bar_pos_x, height / 2 + 4 * bar_spacing, 4 * other, bar_height);
-   fill(0);
-   text("other", bar_pos_x, height / 2 + 4 * bar_spacing + 8);
-   fill(255, 255, 0);
- 
-   // display "words"
-   textAlign(CENTER);
-   textSize(vocal);
-   text(words, width/2, height/3);
+  textSize(60);
+  dots(drum);
+  yellowSpikes();
+  redSpikes(0, bass);
+  redSpikes(45, bass);
+  record(vocal);
+  lyrics(words);
+}
+
+function recordShine(angle,size) {
+  fill(white)
+  // in rekation to angle
+  arc(0, 0, size, size, angle+255, angle+265);
+  arc(0, 0, size, size, angle-85, angle-75);
+}
+function record(vocal) {
+  let targetSize = map(vocal, 0, 100, 200, 380);
+  currentRecordSize = lerp(currentRecordSize, targetSize, 0.3)
+  let recordStroke = map(currentRecordSize, 200, 380, 4, 16)
+  push();
+  translate(width/2, height/2);
+  rotate(recordSpin);
+  fill(red)
+  stroke(white);
+  strokeWeight(recordStroke);
+  ellipse(0, 0, currentRecordSize); //main circle
+  noStroke();
+  recordShine(300,currentRecordSize);
+  recordShine(180,currentRecordSize);
+  recordShine(60,currentRecordSize);
+  stroke(red);
+  strokeWeight(recordStroke+3);
+  noFill();
+  ellipse(0, 0, currentRecordSize-250)
+  ellipse(0, 0, currentRecordSize-200);
+  ellipse(0, 0, currentRecordSize-130);
+  ellipse(0, 0, currentRecordSize-60);
+  ellipse(0, 0, currentRecordSize-10)
+  stroke(white);
+  strokeWeight(recordStroke/3);
+  //record rings
+  ellipse(0, 0, currentRecordSize-200);
+  ellipse(0, 0, currentRecordSize-130);
+  ellipse(0, 0, currentRecordSize-60);
+  strokeWeight(recordStroke)
+  ellipse(0, 0, currentRecordSize); //main circle
+  fill(0);
+  stroke(white);
+  strokeWeight(recordStroke);
+  let innerCircleSize = max(currentRecordSize - 260, 10);
+  ellipse(0, 0, innerCircleSize); // inner circle
+  pop();
+  recordSpin+=2;
+}
+function yellowSpikes() {
+  noStroke();
+  fill(yellow);
+  push();
+  translate(width/2, height/2);
+  rotate(45+yellowSpin);
+  triangle(-75, -100, 75, -100, 0, -400);
+  triangle(-100, -75, -100, 75, -400, 0);
+  triangle(-75, 100, 75, 100, 0, 400);
+  triangle(100, -75, 100, 75, 400, 0);
+  pop();
+  yellowSpin-=1
+
+}
+function redSpikes(angle, bass) {
+  fill(red);
+  let targetSize = map(bass, 0, 100, 0, 270);
+  currentRedSpikeSize = lerp(currentRedSpikeSize, targetSize, 0.3)
+  push();
+  translate(width/2, height/2);
+  rotate(angle);
+  triangle(-50, -100, 50, -100, 0, -currentRedSpikeSize-100);
+  triangle(-100, -50, -100, 50, -currentRedSpikeSize-100, 0);
+  triangle(-45, 100, 50, 100, 0, currentRedSpikeSize+100);
+  triangle(100, -45, 100, 50, currentRedSpikeSize+100, 0);
+  pop();
+}
+function lyrics(words){
+  noStroke();
+  textStyle(BOLD);
+  textAlign(CENTER);
+  stroke(0)
+  strokeWeight(10);
+  fill(white);
+  text(words.toUpperCase(), width/2, height/2+25);
+}
+function dots(drum) {
+  fill(white); 
+  let targetSize = map(drum, 0, 100, 0, 50);
+  currentDotSize = lerp(currentDotSize, targetSize, 0.3);
+  noStroke();
+  for (let y = dotSpacing / 2; y < height; y += dotSpacing) {
+    for (let x = dotSpacing / 2; x < width; x += dotSpacing) {
+      circle(x, y, currentDotSize); 
+    }
+  }
 }
