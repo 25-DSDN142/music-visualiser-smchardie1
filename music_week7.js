@@ -121,7 +121,7 @@ function dots(drum) {
 function squares(other) {
   let targetSize = map(other, 0, 100, 100, 200);
   currentSquareSize = lerp(currentSquareSize, targetSize, 0.6)
-  fill(70);
+  fill(white);
   rect(150, 150, currentSquareSize);
   rect(450, 150, currentSquareSize);
   rect(150, 450, currentSquareSize);
