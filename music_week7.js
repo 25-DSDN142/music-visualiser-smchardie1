@@ -9,6 +9,8 @@ let dotSpacing = 60;
 let currentDotSize = 0;
 let currentRecordSize = 300;
 let currentRedSpikeSize = 270;
+let currentSquareSize = 150;
+let turn = 2;
 
 function draw_one_frame(words, vocal, drum, bass, other, counter) {
   background(0)
@@ -16,6 +18,7 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   rectMode(CENTER)
   textSize(60);
   dots(drum);
+  squares(other);
   yellowSpikes();
   redSpikes(0, bass);
   redSpikes(45, bass);
@@ -85,7 +88,7 @@ function yellowSpikes() {
 function redSpikes(angle, bass) {
   fill(red);
   let targetSize = map(bass, 0, 100, 0, 270);
-  currentRedSpikeSize = lerp(currentRedSpikeSize, targetSize, 0.3)
+  currentRedSpikeSize = lerp(currentRedSpikeSize, targetSize, 0.6)
   push();
   translate(width/2, height/2);
   rotate(angle);
@@ -114,4 +117,13 @@ function dots(drum) {
       circle(x, y, currentDotSize); 
     }
   }
+}
+function squares(other) {
+  let targetSize = map(other, 0, 100, 100, 200);
+  currentSquareSize = lerp(currentSquareSize, targetSize, 0.6)
+  fill(70);
+  rect(150, 150, currentSquareSize);
+  rect(450, 150, currentSquareSize);
+  rect(150, 450, currentSquareSize);
+  rect(450, 450, currentSquareSize);
 }
