@@ -1,7 +1,7 @@
 // vocal, drum, bass, and other are volumes ranging from 0 to 100
 let red = [235, 61, 68]
 let yellow = [246, 245, 181]
-let white = [255]  
+let white = [255, 255, 255]  
 let black = [0]
 let recordSpin = 2;
 let yellowSpin = 2;
@@ -10,6 +10,7 @@ let currentDotSize = 0;
 let currentRecordSize = 300;
 let currentRedSpikeSize = 270;
 let currentSquareSize = 150;
+let currentSquareOpacity = 200;
 let turn = 2;
 
 function draw_one_frame(words, vocal, drum, bass, other, counter) {
@@ -18,7 +19,7 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   rectMode(CENTER)
   textSize(60);
   dots(drum);
-  squares(other);
+  //squares(other);
   yellowSpikes();
   redSpikes(0, bass);
   redSpikes(45, bass);
@@ -87,8 +88,8 @@ function yellowSpikes() {
 }
 function redSpikes(angle, bass) {
   fill(red);
-  let targetSize = map(bass, 0, 100, 0, 270);
-  currentRedSpikeSize = lerp(currentRedSpikeSize, targetSize, 0.6)
+  let targetSize = map(bass, 0, 100, 0, 250);
+  currentRedSpikeSize = lerp(currentRedSpikeSize, targetSize, 1)
   push();
   translate(width/2, height/2);
   rotate(angle);
@@ -99,12 +100,11 @@ function redSpikes(angle, bass) {
   pop();
 }
 function lyrics(words){
-  noStroke();
   textStyle(BOLD);
   textAlign(CENTER);
-  stroke(0)
+  stroke(white)
   strokeWeight(10);
-  fill(white);
+  fill(black);
   text(words.toUpperCase(), width/2, height/2+25);
 }
 function dots(drum) {
@@ -119,9 +119,11 @@ function dots(drum) {
   }
 }
 function squares(other) {
-  let targetSize = map(other, 0, 100, 100, 200);
-  currentSquareSize = lerp(currentSquareSize, targetSize, 0.6)
-  fill(white);
+  let targetSize = map(other, 0, 100, 0, 200);
+  currentSquareSize = lerp(currentSquareSize, targetSize, 1)
+  let opacity = map(other, 0, 100, 0, 255)
+  currentSquareOpacity= lerp(currentSquareOpacity, opacity, 0.4)
+  fill(247, 247, 218, opacity);
   rect(150, 150, currentSquareSize);
   rect(450, 150, currentSquareSize);
   rect(150, 450, currentSquareSize);
