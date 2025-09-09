@@ -4,11 +4,11 @@ let yellow = [246, 245, 181]
 let white = [255, 255, 255]  
 let black = [0]
 let recordSpin = 2;
-let yellowSpin = 2;
+let redSpin = 2;
 let dotSpacing = 60;
 let currentDotSize = 0;
 let currentRecordSize = 300;
-let currentRedSpikeSize = 270;
+let currentYellowSpikeSize = 270;
 let currentSquareSize = 150;
 let currentSquareOpacity = 200;
 let turn = 2;
@@ -20,26 +20,29 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   textSize(60);
   dots(drum);
   //squares(other);
-  yellowSpikes();
-  redSpikes(0, bass);
-  redSpikes(45, bass);
+  redSpikes();
+  yellowSpikes(0, bass);
+  yellowSpikes(45, bass);
   record(vocal);
   lyrics(words);
 }
 
 function recordShine(angle,size) {
   fill(white)
-  // in rekation to angle
+  // in relation to angle
   arc(0, 0, size, size, angle+255, angle+265);
   arc(0, 0, size, size, angle-85, angle-75);
 }
 function record(vocal) {
-  let targetSize = map(vocal, 0, 100, 200, 380);
+  let targetSize = map(vocal, 20, 100, 250, 400);
   currentRecordSize = lerp(currentRecordSize, targetSize, 0.3)
   let recordStroke = map(currentRecordSize, 200, 380, 4, 16)
   push();
   translate(width/2, height/2);
   rotate(recordSpin);
+  stroke(0, 0, 0, 50);
+  strokeWeight(recordStroke*3+3);
+  ellipse(0, 0, currentRecordSize); //main circle shadow
   fill(red)
   stroke(white);
   strokeWeight(recordStroke);
@@ -72,31 +75,38 @@ function record(vocal) {
   pop();
   recordSpin+=2;
 }
-function yellowSpikes() {
-  noStroke();
-  fill(yellow);
+function redSpikes() {
+  stroke(0, 0, 0, 70);
+  strokeWeight(20);
+  fill(red);
   push();
   translate(width/2, height/2);
-  rotate(45+yellowSpin);
+  rotate(45+redSpin);
+  triangle(-75, -100, 75, -100, 0, -400);
+  triangle(-100, -75, -100, 75, -400, 0);
+  triangle(-75, 100, 75, 100, 0, 400);
+  triangle(100, -75, 100, 75, 400, 0);
+  noStroke();
   triangle(-75, -100, 75, -100, 0, -400);
   triangle(-100, -75, -100, 75, -400, 0);
   triangle(-75, 100, 75, 100, 0, 400);
   triangle(100, -75, 100, 75, 400, 0);
   pop();
-  yellowSpin-=1
+  redSpin-=0.5
 
 }
-function redSpikes(angle, bass) {
-  fill(red);
-  let targetSize = map(bass, 0, 100, 0, 250);
-  currentRedSpikeSize = lerp(currentRedSpikeSize, targetSize, 1)
+function yellowSpikes(angle, bass) {
+  fill(yellow);
+  let targetSize = map(bass, 0, 100, 0, 300);
+  currentYellowSpikeSize = lerp(currentYellowSpikeSize, targetSize, 1)
   push();
   translate(width/2, height/2);
   rotate(angle);
-  triangle(-50, -100, 50, -100, 0, -currentRedSpikeSize-100);
-  triangle(-100, -50, -100, 50, -currentRedSpikeSize-100, 0);
-  triangle(-45, 100, 50, 100, 0, currentRedSpikeSize+100);
-  triangle(100, -45, 100, 50, currentRedSpikeSize+100, 0);
+  noStroke();
+  triangle(-50, -100, 50, -100, 0, -currentYellowSpikeSize-100);
+  triangle(-100, -50, -100, 50, -currentYellowSpikeSize-100, 0);
+  triangle(-45, 100, 50, 100, 0, currentYellowSpikeSize+100);
+  triangle(100, -45, 100, 50, currentYellowSpikeSize+100, 0);
   pop();
 }
 function lyrics(words){
