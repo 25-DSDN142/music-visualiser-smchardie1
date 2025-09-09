@@ -11,7 +11,6 @@ let currentRecordSize = 300;
 let currentYellowSpikeSize = 270;
 let currentSquareSize = 150;
 let currentSquareOpacity = 200;
-let turn = 2;
 
 function draw_one_frame(words, vocal, drum, bass, other, counter) {
   background(0)
