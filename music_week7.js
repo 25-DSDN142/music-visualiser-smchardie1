@@ -27,7 +27,9 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   lyrics(words);
   console.log(counter);
 
-  if (counter>500 && counter < 1000){
+  if (counter==7990){
+    fill(255, 255, 0)
+    ellipse(300, 300, 600)
 
   }
 }
