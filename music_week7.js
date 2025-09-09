@@ -25,6 +25,11 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   yellowSpikes(45, bass);
   record(vocal);
   lyrics(words);
+  console.log(counter);
+
+  if (counter>500 && counter < 1000){
+
+  }
 }
 
 function recordShine(angle,size) {
